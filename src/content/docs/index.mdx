@@ -1,0 +1,34 @@
+---
+title: Micelclaw Docs
+description: Technical documentation for Micelclaw OS — your self-hosted AI productivity operating system.
+template: splash
+hero:
+  title: Micelclaw Docs
+  tagline: Everything you need to build, extend, and self-host your personal AI productivity OS.
+  actions:
+    - text: Get Started
+      link: /getting-started/welcome/
+      icon: right-arrow
+      variant: primary
+    - text: View on GitHub
+      link: https://github.com/micelclaw
+      icon: external
+      variant: minimal
+---
+
+import { Card, CardGrid } from '@astrojs/starlight/components';
+
+<CardGrid>
+  <Card title="Getting Started" icon="rocket">
+    Install Micelclaw OS and run your first workflow in minutes.
+  </Card>
+  <Card title="Architecture" icon="setting">
+    Understand the database, hook pipeline, and event system that power everything.
+  </Card>
+  <Card title="Skills & Apps" icon="puzzle">
+    Build custom skills and apps that plug into the Micelclaw runtime.
+  </Card>
+  <Card title="API Reference" icon="open-book">
+    Full reference for REST endpoints, WebSocket events, and authentication.
+  </Card>
+</CardGrid>
