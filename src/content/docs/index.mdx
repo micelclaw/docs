@@ -10,8 +10,12 @@ hero:
       link: /getting-started/welcome/
       icon: right-arrow
       variant: primary
-    - text: View on GitHub
-      link: https://github.com/micelclaw
+    - text: API Reference
+      link: /api/overview/
+      icon: open-book
+      variant: secondary
+    - text: micelclaw.com
+      link: https://micelclaw.com
       icon: external
       variant: minimal
 ---
@@ -22,13 +26,13 @@ import { Card, CardGrid } from '@astrojs/starlight/components';
   <Card title="Getting Started" icon="rocket">
     Install Micelclaw OS and run your first workflow in minutes.
   </Card>
-  <Card title="Architecture" icon="setting">
-    Understand the database, hook pipeline, and event system that power everything.
+  <Card title="Concepts" icon="information">
+    Authentication, API envelope, pagination, compact format, and more.
+  </Card>
+  <Card title="API Reference" icon="open-book">
+    Full reference for every REST endpoint — notes, events, emails, files, and more.
   </Card>
   <Card title="Skills & Apps" icon="puzzle">
     Build custom skills and apps that plug into the Micelclaw runtime.
-  </Card>
-  <Card title="API Reference" icon="open-book">
-    Full reference for REST endpoints, WebSocket events, and authentication.
   </Card>
 </CardGrid>
