@@ -23,6 +23,7 @@ export default defineConfig({
             { label: 'Installation', slug: 'getting-started/installation' },
             { label: 'Quickstart', slug: 'getting-started/quickstart' },
             { label: 'Configuration', slug: 'getting-started/configuration' },
+            { label: 'FAQ', slug: 'getting-started/faq' },
           ],
         },
         {
