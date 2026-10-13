@@ -1,0 +1,814 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9-]{1,49}$"
+    },
+    "api_version": {
+      "type": "string",
+      "const": "1.0"
+    },
+    "min_core_version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$"
+    },
+    "label": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 100
+    },
+    "data_types": {
+      "minItems": 1,
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "mail",
+          "contacts",
+          "calendar",
+          "tasks",
+          "notes",
+          "files",
+          "photos",
+          "music",
+          "feeds"
+        ]
+      }
+    },
+    "modes_by_type": {
+      "type": "object",
+      "propertyNames": {
+        "type": "string",
+        "enum": [
+          "mail",
+          "contacts",
+          "calendar",
+          "tasks",
+          "notes",
+          "files",
+          "photos",
+          "music",
+          "feeds"
+        ]
+      },
+      "additionalProperties": {
+        "minItems": 1,
+        "type": "array",
+        "items": {
+          "type": "string",
+          "enum": [
+            "import",
+            "mirror",
+            "mounted"
+          ]
+        }
+      }
+    },
+    "auth": {
+      "minItems": 1,
+      "type": "array",
+      "items": {
+        "oneOf": [
+          {
+            "type": "object",
+            "properties": {
+              "method": {
+                "type": "string",
+                "const": "oauth2"
+              },
+              "fields": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string",
+                      "pattern": "^[a-z][a-z0-9_]*$"
+                    },
+                    "label": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 100
+                    },
+                    "kind": {
+                      "type": "string",
+                      "enum": [
+                        "text",
+                        "url",
+                        "secret",
+                        "folder",
+                        "file"
+                      ]
+                    },
+                    "required": {
+                      "type": "boolean"
+                    }
+                  },
+                  "required": [
+                    "name",
+                    "label",
+                    "kind",
+                    "required"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "guide": {
+                "type": "object",
+                "properties": {
+                  "steps": {
+                    "minItems": 1,
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  },
+                  "url": {
+                    "type": "string",
+                    "format": "uri"
+                  }
+                },
+                "required": [
+                  "steps"
+                ],
+                "additionalProperties": false
+              },
+              "provider": {
+                "type": "string",
+                "minLength": 1
+              },
+              "scopes_by_type": {
+                "type": "object",
+                "propertyNames": {
+                  "type": "string",
+                  "enum": [
+                    "mail",
+                    "contacts",
+                    "calendar",
+                    "tasks",
+                    "notes",
+                    "files",
+                    "photos",
+                    "music",
+                    "feeds"
+                  ]
+                },
+                "additionalProperties": {
+                  "minItems": 1,
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                }
+              }
+            },
+            "required": [
+              "method",
+              "fields",
+              "guide",
+              "provider",
+              "scopes_by_type"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "method": {
+                "type": "string",
+                "const": "api_token"
+              },
+              "fields": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string",
+                      "pattern": "^[a-z][a-z0-9_]*$"
+                    },
+                    "label": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 100
+                    },
+                    "kind": {
+                      "type": "string",
+                      "enum": [
+                        "text",
+                        "url",
+                        "secret",
+                        "folder",
+                        "file"
+                      ]
+                    },
+                    "required": {
+                      "type": "boolean"
+                    }
+                  },
+                  "required": [
+                    "name",
+                    "label",
+                    "kind",
+                    "required"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "guide": {
+                "type": "object",
+                "properties": {
+                  "steps": {
+                    "minItems": 1,
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  },
+                  "url": {
+                    "type": "string",
+                    "format": "uri"
+                  }
+                },
+                "required": [
+                  "steps"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "required": [
+              "method",
+              "fields",
+              "guide"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "method": {
+                "type": "string",
+                "const": "app_password"
+              },
+              "fields": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string",
+                      "pattern": "^[a-z][a-z0-9_]*$"
+                    },
+                    "label": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 100
+                    },
+                    "kind": {
+                      "type": "string",
+                      "enum": [
+                        "text",
+                        "url",
+                        "secret",
+                        "folder",
+                        "file"
+                      ]
+                    },
+                    "required": {
+                      "type": "boolean"
+                    }
+                  },
+                  "required": [
+                    "name",
+                    "label",
+                    "kind",
+                    "required"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "guide": {
+                "type": "object",
+                "properties": {
+                  "steps": {
+                    "minItems": 1,
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  },
+                  "url": {
+                    "type": "string",
+                    "format": "uri"
+                  }
+                },
+                "required": [
+                  "steps"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "required": [
+              "method",
+              "fields",
+              "guide"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "method": {
+                "type": "string",
+                "const": "basic"
+              },
+              "fields": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string",
+                      "pattern": "^[a-z][a-z0-9_]*$"
+                    },
+                    "label": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 100
+                    },
+                    "kind": {
+                      "type": "string",
+                      "enum": [
+                        "text",
+                        "url",
+                        "secret",
+                        "folder",
+                        "file"
+                      ]
+                    },
+                    "required": {
+                      "type": "boolean"
+                    }
+                  },
+                  "required": [
+                    "name",
+                    "label",
+                    "kind",
+                    "required"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "guide": {
+                "type": "object",
+                "properties": {
+                  "steps": {
+                    "minItems": 1,
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  },
+                  "url": {
+                    "type": "string",
+                    "format": "uri"
+                  }
+                },
+                "required": [
+                  "steps"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "required": [
+              "method",
+              "fields",
+              "guide"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "method": {
+                "type": "string",
+                "const": "ssh_key"
+              },
+              "fields": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string",
+                      "pattern": "^[a-z][a-z0-9_]*$"
+                    },
+                    "label": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 100
+                    },
+                    "kind": {
+                      "type": "string",
+                      "enum": [
+                        "text",
+                        "url",
+                        "secret",
+                        "folder",
+                        "file"
+                      ]
+                    },
+                    "required": {
+                      "type": "boolean"
+                    }
+                  },
+                  "required": [
+                    "name",
+                    "label",
+                    "kind",
+                    "required"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "guide": {
+                "type": "object",
+                "properties": {
+                  "steps": {
+                    "minItems": 1,
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  },
+                  "url": {
+                    "type": "string",
+                    "format": "uri"
+                  }
+                },
+                "required": [
+                  "steps"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "required": [
+              "method",
+              "fields",
+              "guide"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "method": {
+                "type": "string",
+                "const": "s3_key"
+              },
+              "fields": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string",
+                      "pattern": "^[a-z][a-z0-9_]*$"
+                    },
+                    "label": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 100
+                    },
+                    "kind": {
+                      "type": "string",
+                      "enum": [
+                        "text",
+                        "url",
+                        "secret",
+                        "folder",
+                        "file"
+                      ]
+                    },
+                    "required": {
+                      "type": "boolean"
+                    }
+                  },
+                  "required": [
+                    "name",
+                    "label",
+                    "kind",
+                    "required"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "guide": {
+                "type": "object",
+                "properties": {
+                  "steps": {
+                    "minItems": 1,
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  },
+                  "url": {
+                    "type": "string",
+                    "format": "uri"
+                  }
+                },
+                "required": [
+                  "steps"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "required": [
+              "method",
+              "fields",
+              "guide"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "method": {
+                "type": "string",
+                "const": "local_folder"
+              },
+              "fields": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string",
+                      "pattern": "^[a-z][a-z0-9_]*$"
+                    },
+                    "label": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 100
+                    },
+                    "kind": {
+                      "type": "string",
+                      "enum": [
+                        "text",
+                        "url",
+                        "secret",
+                        "folder",
+                        "file"
+                      ]
+                    },
+                    "required": {
+                      "type": "boolean"
+                    }
+                  },
+                  "required": [
+                    "name",
+                    "label",
+                    "kind",
+                    "required"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "guide": {
+                "type": "object",
+                "properties": {
+                  "steps": {
+                    "minItems": 1,
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  },
+                  "url": {
+                    "type": "string",
+                    "format": "uri"
+                  }
+                },
+                "required": [
+                  "steps"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "required": [
+              "method",
+              "fields",
+              "guide"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "method": {
+                "type": "string",
+                "const": "none"
+              },
+              "fields": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string",
+                      "pattern": "^[a-z][a-z0-9_]*$"
+                    },
+                    "label": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 100
+                    },
+                    "kind": {
+                      "type": "string",
+                      "enum": [
+                        "text",
+                        "url",
+                        "secret",
+                        "folder",
+                        "file"
+                      ]
+                    },
+                    "required": {
+                      "type": "boolean"
+                    }
+                  },
+                  "required": [
+                    "name",
+                    "label",
+                    "kind",
+                    "required"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "guide": {
+                "type": "object",
+                "properties": {
+                  "steps": {
+                    "minItems": 1,
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  },
+                  "url": {
+                    "type": "string",
+                    "format": "uri"
+                  }
+                },
+                "required": [
+                  "steps"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "required": [
+              "method",
+              "fields",
+              "guide"
+            ],
+            "additionalProperties": false
+          }
+        ]
+      }
+    },
+    "collections": {
+      "type": "object",
+      "properties": {
+        "selectable": {
+          "type": "boolean"
+        },
+        "noun": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "selectable",
+        "noun"
+      ],
+      "additionalProperties": false
+    },
+    "capabilities": {
+      "type": "object",
+      "propertyNames": {
+        "type": "string",
+        "enum": [
+          "mail",
+          "contacts",
+          "calendar",
+          "tasks",
+          "notes",
+          "files",
+          "photos",
+          "music",
+          "feeds"
+        ]
+      },
+      "additionalProperties": {
+        "type": "object",
+        "properties": {
+          "read": {
+            "type": "boolean",
+            "const": true
+          },
+          "incremental": {
+            "type": "boolean"
+          },
+          "push": {
+            "type": "boolean"
+          },
+          "write": {
+            "type": "boolean"
+          },
+          "delete_propagation": {
+            "type": "boolean"
+          },
+          "media_bytes": {
+            "type": "boolean"
+          },
+          "read_state": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "read",
+          "incremental",
+          "push",
+          "write",
+          "delete_propagation",
+          "media_bytes",
+          "read_state"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "limitations": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "limits": {
+      "type": "object",
+      "properties": {
+        "page_size": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 1000
+        },
+        "max_record_bytes": {
+          "type": "integer",
+          "exclusiveMinimum": 0,
+          "maximum": 104857600
+        },
+        "max_pages_per_run": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 10000
+        }
+      },
+      "required": [
+        "page_size",
+        "max_record_bytes",
+        "max_pages_per_run"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "id",
+    "api_version",
+    "min_core_version",
+    "label",
+    "data_types",
+    "modes_by_type",
+    "auth",
+    "collections",
+    "capabilities",
+    "limitations",
+    "limits"
+  ],
+  "additionalProperties": false,
+  "$id": "https://docs.micelclaw.com/sdk/connectors/manifest.schema.json",
+  "title": "Micelclaw data connector manifest v1",
+  "description": "Structural validation. Cross-field capability/auth/mode invariants are additionally enforced by parseManifest in Core."
+}

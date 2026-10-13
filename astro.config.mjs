@@ -108,6 +108,14 @@ export default defineConfig({
           ],
         },
         {
+          label: 'Plugin Development',
+          items: [
+            { label: 'Data Connector SDK', slug: 'sdk/data-connectors' },
+            { label: 'Provider Profiles', slug: 'sdk/provider-profiles' },
+            { label: 'Channels & MCP Servers', slug: 'sdk/channels-and-servers' },
+          ],
+        },
+        {
           label: 'Contributing',
           items: [
             { label: 'Development Setup', slug: 'contributing/development-setup' },

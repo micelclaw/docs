@@ -1,0 +1,1460 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://docs.micelclaw.com/sdk/connectors/payloads.schema.json",
+  "title": "Micelclaw normalized data payloads v1",
+  "description": "All nine SDK domain payloads. Run validateDomainPayload for temporal/cross-field invariants and enforce ownership in the host.",
+  "type": "object",
+  "required": [
+    "data_type",
+    "payload"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "data_type": {
+      "enum": [
+        "mail",
+        "contacts",
+        "calendar",
+        "tasks",
+        "notes",
+        "files",
+        "photos",
+        "music",
+        "feeds"
+      ]
+    },
+    "payload": {
+      "type": "object"
+    }
+  },
+  "oneOf": [
+    {
+      "properties": {
+        "data_type": {
+          "const": "mail"
+        },
+        "payload": {
+          "$ref": "#/$defs/mail"
+        }
+      }
+    },
+    {
+      "properties": {
+        "data_type": {
+          "const": "contacts"
+        },
+        "payload": {
+          "$ref": "#/$defs/contacts"
+        }
+      }
+    },
+    {
+      "properties": {
+        "data_type": {
+          "const": "calendar"
+        },
+        "payload": {
+          "$ref": "#/$defs/calendar"
+        }
+      }
+    },
+    {
+      "properties": {
+        "data_type": {
+          "const": "tasks"
+        },
+        "payload": {
+          "$ref": "#/$defs/tasks"
+        }
+      }
+    },
+    {
+      "properties": {
+        "data_type": {
+          "const": "notes"
+        },
+        "payload": {
+          "$ref": "#/$defs/notes"
+        }
+      }
+    },
+    {
+      "properties": {
+        "data_type": {
+          "const": "files"
+        },
+        "payload": {
+          "$ref": "#/$defs/files"
+        }
+      }
+    },
+    {
+      "properties": {
+        "data_type": {
+          "const": "photos"
+        },
+        "payload": {
+          "$ref": "#/$defs/photos"
+        }
+      }
+    },
+    {
+      "properties": {
+        "data_type": {
+          "const": "music"
+        },
+        "payload": {
+          "$ref": "#/$defs/music"
+        }
+      }
+    },
+    {
+      "properties": {
+        "data_type": {
+          "const": "feeds"
+        },
+        "payload": {
+          "$ref": "#/$defs/feeds"
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "mail": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "type": "object",
+      "properties": {
+        "message_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "thread_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "subject": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "from_address": {
+          "type": "string",
+          "minLength": 1
+        },
+        "from_name": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "to_addresses": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "cc_addresses": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "bcc_addresses": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "body_plain": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "body_html": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "received_at": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z|([+-](?:[01]\\d|2[0-3]):[0-5]\\d)))$"
+        },
+        "folder": {
+          "type": "string",
+          "minLength": 1
+        },
+        "labels": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "is_read": {
+          "type": "boolean"
+        },
+        "is_starred": {
+          "type": "boolean"
+        },
+        "in_reply_to": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "references": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "remote_attachments": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "remote_id": {
+                "type": "string",
+                "minLength": 1
+              },
+              "filename": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 255
+              },
+              "mime_type": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "size_bytes": {
+                "anyOf": [
+                  {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 9007199254740991
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              }
+            },
+            "required": [
+              "remote_id",
+              "filename",
+              "mime_type",
+              "size_bytes"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "attachment_refs": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          }
+        },
+        "native_content": {}
+      },
+      "required": [
+        "message_id",
+        "thread_id",
+        "subject",
+        "from_address",
+        "from_name",
+        "to_addresses",
+        "cc_addresses",
+        "bcc_addresses",
+        "body_plain",
+        "body_html",
+        "received_at",
+        "folder",
+        "labels",
+        "is_read",
+        "is_starred",
+        "in_reply_to",
+        "references",
+        "remote_attachments"
+      ],
+      "additionalProperties": false
+    },
+    "contacts": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "type": "object",
+      "properties": {
+        "display_name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "first_name": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "last_name": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "emails": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "value": {
+                "type": "string",
+                "minLength": 1
+              },
+              "type": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "primary": {
+                "type": "boolean"
+              }
+            },
+            "required": [
+              "value",
+              "type"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "phones": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "value": {
+                "type": "string",
+                "minLength": 1
+              },
+              "type": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "primary": {
+                "type": "boolean"
+              }
+            },
+            "required": [
+              "value",
+              "type"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "company": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "job_title": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "addresses": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "formatted": {
+                "type": "string"
+              },
+              "type": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              }
+            },
+            "required": [
+              "formatted",
+              "type"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "notes": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "avatar_ref": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "native_content": {}
+      },
+      "required": [
+        "display_name",
+        "first_name",
+        "last_name",
+        "emails",
+        "phones",
+        "company",
+        "job_title",
+        "addresses",
+        "notes",
+        "avatar_ref"
+      ],
+      "additionalProperties": false
+    },
+    "calendar": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "type": "object",
+      "properties": {
+        "uid": {
+          "type": "string",
+          "minLength": 1
+        },
+        "title": {
+          "type": "string"
+        },
+        "description": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "location": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "start": {
+          "oneOf": [
+            {
+              "type": "object",
+              "properties": {
+                "kind": {
+                  "type": "string",
+                  "const": "date"
+                },
+                "date": {
+                  "type": "string",
+                  "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+                }
+              },
+              "required": [
+                "kind",
+                "date"
+              ],
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "properties": {
+                "kind": {
+                  "type": "string",
+                  "const": "date_time"
+                },
+                "date_time": {
+                  "type": "string",
+                  "format": "date-time",
+                  "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z|([+-](?:[01]\\d|2[0-3]):[0-5]\\d)))$"
+                }
+              },
+              "required": [
+                "kind",
+                "date_time"
+              ],
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "properties": {
+                "kind": {
+                  "type": "string",
+                  "const": "local_date_time"
+                },
+                "date_time": {
+                  "type": "string",
+                  "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(?:\\.\\d{1,9})?$"
+                },
+                "timezone": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                }
+              },
+              "required": [
+                "kind",
+                "date_time",
+                "timezone"
+              ],
+              "additionalProperties": false
+            }
+          ]
+        },
+        "end": {
+          "anyOf": [
+            {
+              "oneOf": [
+                {
+                  "type": "object",
+                  "properties": {
+                    "kind": {
+                      "type": "string",
+                      "const": "date"
+                    },
+                    "date": {
+                      "type": "string",
+                      "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+                    }
+                  },
+                  "required": [
+                    "kind",
+                    "date"
+                  ],
+                  "additionalProperties": false
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "kind": {
+                      "type": "string",
+                      "const": "date_time"
+                    },
+                    "date_time": {
+                      "type": "string",
+                      "format": "date-time",
+                      "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z|([+-](?:[01]\\d|2[0-3]):[0-5]\\d)))$"
+                    }
+                  },
+                  "required": [
+                    "kind",
+                    "date_time"
+                  ],
+                  "additionalProperties": false
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "kind": {
+                      "type": "string",
+                      "const": "local_date_time"
+                    },
+                    "date_time": {
+                      "type": "string",
+                      "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(?:\\.\\d{1,9})?$"
+                    },
+                    "timezone": {
+                      "anyOf": [
+                        {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ]
+                    }
+                  },
+                  "required": [
+                    "kind",
+                    "date_time",
+                    "timezone"
+                  ],
+                  "additionalProperties": false
+                }
+              ]
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "all_day": {
+          "type": "boolean"
+        },
+        "timezone": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "confirmed",
+            "tentative",
+            "cancelled"
+          ]
+        },
+        "recurrence": {
+          "anyOf": [
+            {},
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "recurrence_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "attendees": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "address": {
+                "type": "string",
+                "minLength": 1
+              },
+              "name": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "response": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              }
+            },
+            "required": [
+              "address",
+              "name",
+              "response"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "native_content": {}
+      },
+      "required": [
+        "uid",
+        "title",
+        "description",
+        "location",
+        "start",
+        "end",
+        "all_day",
+        "timezone",
+        "status",
+        "recurrence",
+        "recurrence_id",
+        "attendees"
+      ],
+      "additionalProperties": false
+    },
+    "tasks": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string",
+          "minLength": 1
+        },
+        "description": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "description_format": {
+          "type": "string",
+          "enum": [
+            "text",
+            "markdown",
+            "html"
+          ]
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "needs_action",
+            "in_progress",
+            "completed",
+            "cancelled"
+          ]
+        },
+        "percent_complete": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "priority": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "tags": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "start": {
+          "anyOf": [
+            {
+              "oneOf": [
+                {
+                  "type": "object",
+                  "properties": {
+                    "kind": {
+                      "type": "string",
+                      "const": "date"
+                    },
+                    "date": {
+                      "type": "string",
+                      "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+                    }
+                  },
+                  "required": [
+                    "kind",
+                    "date"
+                  ],
+                  "additionalProperties": false
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "kind": {
+                      "type": "string",
+                      "const": "date_time"
+                    },
+                    "date_time": {
+                      "type": "string",
+                      "format": "date-time",
+                      "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z|([+-](?:[01]\\d|2[0-3]):[0-5]\\d)))$"
+                    }
+                  },
+                  "required": [
+                    "kind",
+                    "date_time"
+                  ],
+                  "additionalProperties": false
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "kind": {
+                      "type": "string",
+                      "const": "local_date_time"
+                    },
+                    "date_time": {
+                      "type": "string",
+                      "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(?:\\.\\d{1,9})?$"
+                    },
+                    "timezone": {
+                      "anyOf": [
+                        {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ]
+                    }
+                  },
+                  "required": [
+                    "kind",
+                    "date_time",
+                    "timezone"
+                  ],
+                  "additionalProperties": false
+                }
+              ]
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "due": {
+          "anyOf": [
+            {
+              "oneOf": [
+                {
+                  "type": "object",
+                  "properties": {
+                    "kind": {
+                      "type": "string",
+                      "const": "date"
+                    },
+                    "date": {
+                      "type": "string",
+                      "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+                    }
+                  },
+                  "required": [
+                    "kind",
+                    "date"
+                  ],
+                  "additionalProperties": false
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "kind": {
+                      "type": "string",
+                      "const": "date_time"
+                    },
+                    "date_time": {
+                      "type": "string",
+                      "format": "date-time",
+                      "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z|([+-](?:[01]\\d|2[0-3]):[0-5]\\d)))$"
+                    }
+                  },
+                  "required": [
+                    "kind",
+                    "date_time"
+                  ],
+                  "additionalProperties": false
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "kind": {
+                      "type": "string",
+                      "const": "local_date_time"
+                    },
+                    "date_time": {
+                      "type": "string",
+                      "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(?:\\.\\d{1,9})?$"
+                    },
+                    "timezone": {
+                      "anyOf": [
+                        {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ]
+                    }
+                  },
+                  "required": [
+                    "kind",
+                    "date_time",
+                    "timezone"
+                  ],
+                  "additionalProperties": false
+                }
+              ]
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "timezone": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "completed_at": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "date-time",
+              "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z|([+-](?:[01]\\d|2[0-3]):[0-5]\\d)))$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "recurrence": {
+          "anyOf": [
+            {},
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "parent_remote_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "dependency_remote_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "checklist": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "remote_id": {
+                "type": "string",
+                "minLength": 1
+              },
+              "text": {
+                "type": "string"
+              },
+              "checked": {
+                "type": "boolean"
+              },
+              "position": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9007199254740991
+              }
+            },
+            "required": [
+              "remote_id",
+              "text",
+              "checked",
+              "position"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "assignees": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "remote_id": {
+                "type": "string",
+                "minLength": 1
+              },
+              "display_name": {
+                "type": "string"
+              },
+              "email": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              }
+            },
+            "required": [
+              "remote_id",
+              "display_name",
+              "email"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "attachment_refs": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          }
+        },
+        "native_content": {}
+      },
+      "required": [
+        "title",
+        "description",
+        "description_format",
+        "status",
+        "percent_complete",
+        "priority",
+        "tags",
+        "start",
+        "due",
+        "timezone",
+        "completed_at",
+        "recurrence",
+        "parent_remote_id",
+        "dependency_remote_ids",
+        "checklist",
+        "assignees",
+        "attachment_refs"
+      ],
+      "additionalProperties": false
+    },
+    "notes": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "type": "object",
+      "properties": {
+        "title": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "content": {
+          "type": "string"
+        },
+        "content_format": {
+          "type": "string",
+          "enum": [
+            "markdown",
+            "html"
+          ]
+        },
+        "modified_at": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z))$"
+        },
+        "native_content": {},
+        "attachment_refs": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          }
+        }
+      },
+      "required": [
+        "title",
+        "content",
+        "content_format"
+      ],
+      "additionalProperties": false
+    },
+    "files": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 255
+        },
+        "parent_remote_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "kind": {
+          "type": "string",
+          "enum": [
+            "file",
+            "directory"
+          ]
+        },
+        "mime_type": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "size_bytes": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "modified_at": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "date-time",
+              "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z|([+-](?:[01]\\d|2[0-3]):[0-5]\\d)))$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "name",
+        "parent_remote_id",
+        "kind",
+        "mime_type",
+        "size_bytes",
+        "modified_at"
+      ],
+      "additionalProperties": false
+    },
+    "photos": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "type": "object",
+      "properties": {
+        "original_ref": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+        },
+        "filename": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 255
+        },
+        "mime_type": {
+          "type": "string",
+          "pattern": "^(image|video)\\/[a-z0-9.+-]+$"
+        },
+        "size_bytes": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "checksum_sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "taken_at": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "date-time",
+              "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z|([+-](?:[01]\\d|2[0-3]):[0-5]\\d)))$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "album_remote_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "exif": {
+          "type": "object",
+          "propertyNames": {
+            "type": "string"
+          },
+          "additionalProperties": {}
+        }
+      },
+      "required": [
+        "original_ref",
+        "filename",
+        "mime_type",
+        "size_bytes",
+        "checksum_sha256",
+        "taken_at",
+        "album_remote_ids"
+      ],
+      "additionalProperties": false
+    },
+    "music": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "type": "object",
+      "properties": {
+        "kind": {
+          "type": "string",
+          "enum": [
+            "playlist",
+            "saved_tracks"
+          ]
+        },
+        "title": {
+          "type": "string"
+        },
+        "source_service": {
+          "type": "string",
+          "minLength": 1
+        },
+        "source_url": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uri"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "tracks": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "source_service": {
+                "type": "string",
+                "minLength": 1
+              },
+              "remote_track_id": {
+                "type": "string",
+                "minLength": 1
+              },
+              "title": {
+                "type": "string"
+              },
+              "artists": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "album": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "duration_ms": {
+                "anyOf": [
+                  {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 9007199254740991
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "source_url": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "format": "uri"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "match_state": {
+                "type": "string",
+                "enum": [
+                  "unmatched",
+                  "matched"
+                ]
+              },
+              "local_song_id": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              }
+            },
+            "required": [
+              "source_service",
+              "remote_track_id",
+              "title",
+              "artists",
+              "album",
+              "duration_ms",
+              "source_url",
+              "match_state",
+              "local_song_id"
+            ],
+            "additionalProperties": false
+          }
+        }
+      },
+      "required": [
+        "kind",
+        "title",
+        "source_service",
+        "source_url",
+        "tracks"
+      ],
+      "additionalProperties": false
+    },
+    "feeds": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "type": "object",
+      "properties": {
+        "feed_url": {
+          "type": "string",
+          "format": "uri"
+        },
+        "title": {
+          "type": "string"
+        },
+        "category": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "feed_url",
+        "title",
+        "category"
+      ],
+      "additionalProperties": false
+    }
+  }
+}
